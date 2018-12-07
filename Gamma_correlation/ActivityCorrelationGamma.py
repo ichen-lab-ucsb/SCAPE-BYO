@@ -1,7 +1,7 @@
 # This is a python script to calculate fitness correlation values (gamma)
 # by Celia Blanco
 # contact: cblanco@chem.ucsb.edu
-# Used as: python ActivityCorrelationGamma.py ActivityObservedData.xlsx sheet_name correlation_distance
+# Use as: python ActivityCorrelationGamma.py ActivityObservedData.xlsx sheet_name correlation_distance
 
 from openpyxl import load_workbook
 import Levenshtein 
