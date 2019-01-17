@@ -21,11 +21,9 @@ What things you need to install the software and how to install them:
 
 ## k-seq Analysis
 
-Whatever goes here
 
 ## Evolutionary Pathways
 
-Whatever goes here
 
 ## Correlation of Fitness Effects
 
