@@ -20,6 +20,29 @@ What things you need to install the software and how to install them:
 - Levenshtein package for python 
 
 ## k-seq Analysis
+A tool that calculates A and k times t, according to the equation A(1-Exp(-k[S]t)), for every sequence in a relevant k-seq data set. Requires a fairly large number of inputs, including sequence data/counts for a k-seq "start" round, a file for each tested k-seq round after selection has occurred, files describing the reaction conditions, and known or approximate normalization constants for each round based on the expected amount of DNA/RNA/protein present before and after the reaction in each sample.
+
+An example case to generate all k-seq data used in this publication are as follows:
+
+```
+python peak_pather R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v
+```
+
+It is NOT recommended to run the example case, as it will take 10-30 hours on a standard personal computer. Instead, consider one of the (much faster) following...
+
+Calculate k-seq data for all sequences present at count ≥ 10 in round 5 of the selection:
+```
+python peak_pather R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -m 10
+```
+
+Calculate k-seq data for all sequences present in family 1A.1:
+```
+python peak_pather R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -s center CTACTTCAAACAATCGGTCTG 3
+```
+
+Current input file requirements for each rounds are "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at http://galaxy-chen.cnsi.ucsb.edu:8080/. Future versions of this script will be included with tools to more easily process data from a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
+
+For usage/argument details, run `kseq_tools_v01 -h`
 
 
 ## Evolutionary Pathways
@@ -35,7 +58,7 @@ python peak_pather R5c-counts.txt [output_file] [start_sequence] [end_sequence] 
 ```
 Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and 2 for all other pathways. For all pairs of sequence endpoints investigated, minimum step size was set at 1, then incremented by 1 until 5 pathways were found; the script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
 
-For usage/argument details, run `peak_pather -h`
+For usage/argument details, run `peak_pather_v01 -h`
 
 ## Correlation of Fitness Effects
 
