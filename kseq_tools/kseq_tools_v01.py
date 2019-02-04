@@ -39,6 +39,19 @@ def main():
     
     searchSet = {} #if this is left blank, it will read all sequences at each round; otherwise, will be limited as follows:
     
+    
+    with open(args.kseq_rounds) as f:
+        roundList = []
+        for lineRead in f:
+            roundList.append(lineRead.split('\n')[0])
+            
+                
+    with open(args.normalization_list) as f:
+        normList = []
+        for lineRead in f:
+            substList.append(float(lineRead))
+
+    
     center = ''
     
     if args.search_set[0] == 'center':
@@ -50,14 +63,40 @@ def main():
         #if we're only interested in kseq values for a specific list of sequences, we limit our search:
         searchSet = readSeqList(args.search_set[1])
         
-    (counts, uniqs, tots) = readAll(args.start_round, args.kseq_rounds, args.min_count, 1, args.normalization_list, searchSet, args.in_type)
+    (counts, uniqs, tots) = readAll(args.start_round, roundList, args.min_count, 1, normList, searchSet, args.in_type)
     #read all sequence abundances in all rounds
+    
+
+    with open(args.substrate_concs) as f:
+        substList = []
+        for lineRead in f:
+            substList.append(float(lineRead))
+
+    with open(args.rounds_to_average) as f:
+        avgList = []
+        for lineRead in f:
+            avgSublist = []
+            
+            elems = lineRead.split(',')
+            for elem in elems:
+                avgSublist.append(int(elem))
+            avgList.append(avgSublist)
+
+    with open(args.rounds_to_error) as f:
+        errList = []
+        for lineRead in f:
+            errSublist = []
+            
+            elems = lineRead.split(',')
+            for elem in elems:
+                errSublist.append(int(elem))
+            errList.append(errSublist)
     
     separator = ','
     if args.out_type == 'tsv':
         separator = '\t'
     
-    calculateKinetics(args.output, counts, uniqs, tots, args.start_round, args.kseq_rounds, separator, args.substrate_concs, args.round_to_average, args.round_to_average, center, args.verbose)
+    calculateKinetics(args.output, counts, uniqs, tots, args.start_round, roundList, separator, substList, avgList, errList, center, args.verbose)
 
 
 
