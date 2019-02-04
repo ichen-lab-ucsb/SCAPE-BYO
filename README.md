@@ -56,7 +56,7 @@ The pathways described in this publication are calculated as follows:
 ```
 python peak_pather R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_dist [variable] --min_step [variable] -n 5 --max_length 35
 ```
-Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and 2 for all other pathways. For all pairs of sequence endpoints investigated, minimum step size was set at 1, then incremented by 1 until 5 pathways were found; the script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
+Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, minimum step size was set at 1, then incremented by 1 until 5 pathways were found; the script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
 
 For usage/argument details, run `peak_pather_v01 -h`
 
