@@ -23,7 +23,19 @@ What things you need to install the software and how to install them:
 
 
 ## Evolutionary Pathways
+The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the A* algorithm, and iterating over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The script provided here finds the N best pathways between two sequences, ranked by 1) Shortest total path length, 2) Smallest maximum step size, 3) Smallest average step size, 4) Largest minimum sequence count, using a sequence counts file as the reference map (this could easily be replaced with highest minimum fitness, if the reference file is a list of sequences and their fitnesses instead).
 
+Current input file requirements are a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at http://galaxy-chen.cnsi.ucsb.edu:8080/. Future versions of this script will be included with tools to more easily process data from
+a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
+
+The pathways described in this publication are calculated as follows:
+
+```
+python peak_pather R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_dist [variable] --min_step [variable] -n 5 --max_length 35
+```
+Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and 2 for all other pathways. For all pairs of sequence endpoints investigated, minimum step size was set at 1, then incremented by 1 until 5 pathways were found; the script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
+
+For usage/argument details, run `peak_pather -h`
 
 ## Correlation of Fitness Effects
 
