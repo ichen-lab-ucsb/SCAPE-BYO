@@ -48,10 +48,7 @@ def main():
     
     bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
 
-    with open(args.output,'w') as fo:
-        
-        fo.write('placeholder text \n placeholder text \n   \n')
-            
+    with open(args.output,'w') as fo:            
         for path in bestPaths:
             fo.write('\nhere is a path\n')
             fo.write('step #,sequence,step size,total distance,sequence count\n')
@@ -69,12 +66,11 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
     
     with open(loc) as f:
         if fileType == 'counts':
-            
+            line0 = next(f)
             next(f)
             next(f)            
             
-            line2 = next(f)
-            uniqueSplit = [elem for elem in line2.strip().split()]
+            uniqueSplit = [elem for elem in line0.strip().split()]
             uniques = int(uniqueSplit[-1]) #total number of unique sequences present in this round
             
             
