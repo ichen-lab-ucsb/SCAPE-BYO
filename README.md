@@ -22,6 +22,8 @@ What things you need to install the software and how to install them:
 ## k-seq Analysis
 A tool that calculates A and k times t, according to the equation A(1-Exp(-k[S]t)), for every sequence in a relevant k-seq data set. Requires a fairly large number of inputs, including sequence data/counts for a k-seq "start" round, a file for each tested k-seq round after selection has occurred, files describing the reaction conditions, and known or approximate normalization constants for each round based on the expected amount of DNA/RNA/protein present before and after the reaction in each sample.
 
+### How to use the script to calculate k-seq results:
+
 An example case to generate all k-seq data used in this publication are as follows:
 
 ```
@@ -51,6 +53,8 @@ The shortest pathway between two sequences, along a fitness landscape, can be fo
 Current input file requirements are a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at http://galaxy-chen.cnsi.ucsb.edu:8080/. Future versions of this script will be included with tools to more easily process data from
 a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
 
+### How to use the script to calculate evolutionary pathways:
+
 The pathways described in this publication are calculated as follows (with the flag -p to output progress data to the terminal, as the script can take a while to run):
 
 ```
@@ -71,7 +75,7 @@ The correlation of fitness effects,
 <a href="https://www.codecogs.com/eqnedit.php?latex=\gamma&space;_{d}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\gamma&space;_{d}" title="\gamma _{d}" /></a>, 
 is calculated following [Ferretti et al., 2016](https://www.sciencedirect.com/science/article/pii/S0022519316000771?via%3Dihub).
 
-The Python script (`ActivityCorrelationGamma.py`) and excel source file (`ActivityObservedData.xlsx`) can be found in the folder `Gamma_correlation`.
+The Python script (`ActivityCorrelationGamma.py`) and excel source file (`ActivityObservedData.xlsx`) can be found in the folder `Gamma_correlation`. Each spreadsheet in the excel file corresponds to a different family and follows the same format: sequences in the first column, calculated activity in the second column (included values under the baseline activity), calculate activity or baseline activity in the third column, logarithmic values in the fourth column.
 
 ### How to use the script to calculate correlation of fitness effects:
 
