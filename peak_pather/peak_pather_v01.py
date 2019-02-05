@@ -14,48 +14,49 @@
 #by Abe Pressman
 #contact: abe@engineering.ucsb.edu
 
-#use as: python peak_pather counts_file output_file start_sequence end_sequence [optional arguments]
-
+#use as: python peak_pather.py counts_file output_file start_sequence end_sequence [optional arguments]
 
 import Levenshtein
 from heapq import heappop, heappush
 import argparse
 
-
-
 def main():
-    parser = argparse.ArgumentParser(description="Find the shortest N evolutionary paths between two sequences in a population, using the A* algorithm")
-    parser.add_argument("input", help="location/name of file containing sequence counts for the round to be iterated over")
-    parser.add_argument("output", help="output file location/name")
-    parser.add_argument("start_seq", help="path start sequence")
-    parser.add_argument("end_seq", help="path end sequence")
-    parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
-    parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
-    parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
-    parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
-    parser.add_argument("--max_step", type=int, default=1, help='minimum step size allowed by search paths; default is 1')
-    parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
-    parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
+	parser = argparse.ArgumentParser(description="Find the shortest N evolutionary paths between two sequences in a population, using the A* algorithm")
+	parser.add_argument("input", help="location/name of file containing sequence counts for the round to be iterated over")
+	parser.add_argument("output", help="output file location/name")
+	parser.add_argument("start_seq", help="path start sequence")
+	parser.add_argument("end_seq", help="path end sequence")
+	parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
+	parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
+	parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
+	parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
+	parser.add_argument("--max_step", type=int, default=1, help='minimum step size allowed by search paths; default is 1')
+	parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
+	parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
 
-    args=parser.parse_args()
-    
-    maxPath = args.max_length
-    if args.max_length == 0:
-        maxPath = 2*len(args.start_seq) #set our maximum path length   
+	args=parser.parse_args()
+
+	maxPath = args.max_length
+	if args.max_length == 0:
+		maxPath = 2*len(args.start_seq) #set our maximum path length   
+
+	counts = readSeqs(args.input, args.in_type, args.min_count, args.track_progress) #generate a dictionary of all sequences present and their count
+
+	bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
+
+	with open(args.output,'w') as fo:
+
+		fo.write('These are the best ' +  str(args.num_paths) + ' paths from ' + str(args.start_seq) + ' to ' + str(args.end_seq) + '\n')
+		fo.write('of maximum length ' + str(args.max_length) + ' and maximum step size (' + str(args.dist_type) + ') ' + str(args.max_step) + '\n')
+		fo.write('using sequences of minimum abundance ' + str(args.min_count) + '\n')
         
-    counts = readSeqs(args.input, args.in_type, args.min_count, args.track_progress) #generate a dictionary of all sequences present and their count
-    
-    
-    bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
+		for path in bestPaths:
+			fo.write('\nhere is a path\n')
+			fo.write('step #,sequence,step size,total distance,sequence count\n')
+			fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(path[0]) + ',' + str(counts[path[4]]) + '\n')
 
-    with open(args.output,'w') as fo:            
-        for path in bestPaths:
-            fo.write('\nhere is a path\n')
-            fo.write('step #,sequence,step size,total distance,sequence count\n')
-            fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(path[0]) + ',' + str(counts[path[4]]) + '\n')
-
-            for step in path[6]:
-                fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
+			for step in path[6]:
+				fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
 
 # Create a hashmap keyed to all sequences present in the population, returning a dictionary of all sequences we want to search over, and the number of times they appear in that round's sequencing data
 def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
@@ -73,12 +74,10 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
             uniqueSplit = [elem for elem in line0.strip().split()]
             uniques = int(uniqueSplit[-1]) #total number of unique sequences present in this round
             
-            
             i = 0
                         
             for lineRead in f:
                 line = [elem for elem in (lineRead.split(' ')) if (elem != '' and elem !='\n' )]
-           
            
                 if trackProgress:
                     i += 1
@@ -87,19 +86,15 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
                 
                 if int(line[1]) >= minCount:
                     allSeqCounts[line[0]] = int(line[1])
-                    
-        
-                    
+                          
     return allSeqCounts
     #a dictionary of all sequences we want to search over, and their abundance 
-
 
 #A naive method to find all possible connections from each particular sequence to its neighbors. "Tricks" are added to significantly speed this step up
 def greedyEdgesTricks(seq1, seqCounts, distanceType='edit', maxStep=1):
     
     dist = 0
     edgeList = []
-
     
     if distanceType == 'edit':
         
@@ -111,8 +106,7 @@ def greedyEdgesTricks(seq1, seqCounts, distanceType='edit', maxStep=1):
         for seq2 in seqCounts:
             len2 = len(seq2)     
             adjDist = maxStep + abs(len1-len2)
-                        
-                
+                                 
             if Levenshtein.distance(seq1[:sublen], seq2[:sublen]) <= adjDist:
                 
                 #Not worth calculating the distance between the full strings if the distance between half-strings is
@@ -126,8 +120,7 @@ def greedyEdgesTricks(seq1, seqCounts, distanceType='edit', maxStep=1):
                     if dist > 0:
                         edgeList.append((seq2, dist))
                         #if seq2 is close enough to seq1 (and not identical), add it to the list of valid edges
-
-                
+             
     if distanceType == 'hamming':
         
         #similar method, for hamming distance
@@ -138,10 +131,7 @@ def greedyEdgesTricks(seq1, seqCounts, distanceType='edit', maxStep=1):
                 if dist > 0:
                     edgeList.append((seq2, dist))
                 
-                
-    
     return edgeList
-
 
 #main function for generating pathways 
 def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1, numPaths = 1, trackProgress=False):
@@ -149,11 +139,8 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     minPaths = [] #a heap of the shortest paths generated; will automatically keep paths sorted
     endDists = {} #a map of the shortest possible path distances from each sequence to the end sequence  
     
-    
-    
     if distanceType == 'edit':
-        
-        
+               
         seqCounts = {} #a dictionary of counts for all sequences valid to iterate over 
         
         for seq in fullCounts:
@@ -168,18 +155,12 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     elif distanceType == 'hamming':
         for seq in seqCounts:
             endDists[seq] = Levenshtein.hamming(seq, endSeq)
-
-    
+  
     pathsFound = False #have we found a valid pathway yet?
     
-    
     backPaths = {} #a map of the shortest back-path to reach each sequence
-    
-    
-            
-    
+      
     #Each object stored in our "minPaths" heap has the format (traveled distance, maximum distance, minimum count, total steps, sequence, [back dist, this dist, this count, this step num, this sequence], list of paths backwards to the starting sequence)
-
     
     heappush(minPaths, (endDists[startSeq], 0, fullCounts[startSeq], 0, startSeq, [0, 0, fullCounts[startSeq], 0, startSeq], []))
     #we initialize the heap with a single tuple containing the starting sequence and an empty back-path list
@@ -194,7 +175,6 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     i = 0
     
     while(pathsFound == False): #keep iterating until we find all the paths we need
-
         
         thisPath = heappop(minPaths)
         
@@ -250,7 +230,6 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
                 heappush(minPaths, (endDists[newSeq]+newBackDist, newMaxDist, newMinCount, newTotalSteps, newSeq, [newBackDist, edge[1], fullCounts[newSeq], newTotalSteps, newSeq],newPath))
                 #add a new tuple to the heap, of format (minimum possible heuristic distance, sequence, step distance, path backwards); the heap will automatically sort by shortest distance
 
-
         if thisSeq == endSeq:
             if len(winners)<numPaths:
                 successLength = thisBackDist #once we reach the end sequence, we consider all possible paths of the same length
@@ -266,14 +245,10 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     
     return bestWinners
 
-
-        
-    
 #Example case:
 
 #counts = readSeqs('R5c-counts-trim.txt', cutOff=2)
 #astar('CCACACTTCAAGCAATCGGTC', 'CTCTTCAATAATCGGTTGCGT', counts, 35, maxDist=3, numPaths=5)
-
-    
+   
 if __name__ == "__main__":
     main()
