@@ -10,7 +10,6 @@
 #HOWEVER future versions of this script will be included with tools to more easily process data from
 #a number of other tools currently used to process high-throughput sequencing data
 
-
 import numpy as np
 from scipy.optimize import curve_fit
 import Levenshtein
@@ -29,9 +28,10 @@ def main():
     parser.add_argument("rounds_to_error", help="file containing comma-separated lists of of sets of rounds used for each replicate. If no replicates, leave blank (and st.dev will be based on goodness of fit instead). See example use case if confused")    
     parser.add_argument("-s","--search_set", nargs='+', default='all', help="the set of sequences to search over. By default, set to 'all,' generating k-seq data for all sequences in the start round. If set to 'center [center_sequence] [distance]' (requires three arguments, the second being a sequence and the third being an integer), will only generate kseq data over all sequences within a fixed distance of the center. If set to 'list [sequence_list_location], will only generate data over the sequences listed, one on each row, in a file at the given location")
     parser.add_argument("-v","--verbose", action='store_true', help='if this flag is enabled, output file will include data on sequence concentration at every kseq round, resulting in a larger output file')
-    parser.add_argument("-i", "--in_type", default=["counts"], help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
-    parser.add_argument("-o", "--out_type", default=["csv"], help="set output file type; default is 'csv' or comma-separated values, a format that can be used by a variety of programs; other valid options are currently 'tsv' or tab-separated values")
+    parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
+    parser.add_argument("-o", "--out_type", default="csv", help="set output file type; default is 'csv' or comma-separated values, a format that can be used by a variety of programs; other valid options are currently 'tsv' or tab-separated values")
     parser.add_argument("-m","--min_count", type=int, default=1, help='minimum count of sequences searched (defaults to 1, keeping all sequences present in the "k-seq start" round, but can be set higher')
+    parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
 
 
 
@@ -49,7 +49,7 @@ def main():
     with open(args.normalization_list) as f:
         normList = []
         for lineRead in f:
-            substList.append(float(lineRead))
+            normList.append(float(lineRead))
 
     
     center = ''
@@ -63,7 +63,7 @@ def main():
         #if we're only interested in kseq values for a specific list of sequences, we limit our search:
         searchSet = readSeqList(args.search_set[1])
         
-    (counts, uniqs, tots) = readAll(args.start_round, roundList, args.min_count, 1, normList, searchSet, args.in_type)
+    (counts, uniqs, tots) = readAll(args.start_round, roundList, normList, args.min_count, 1, searchSet, args.in_type, args.track_progress)
     #read all sequence abundances in all rounds
     
 
@@ -96,7 +96,7 @@ def main():
     if args.out_type == 'tsv':
         separator = '\t'
     
-    calculateKinetics(args.output, counts, uniqs, tots, args.start_round, roundList, separator, substList, avgList, errList, center, args.verbose)
+    calculateKinetics(args.output, counts, uniqs, tots, args.start_round, roundList, substList, separator, avgList, errList, center, args.verbose, args.track_progress)
 
 
 
@@ -113,7 +113,7 @@ def readSeqList(loc):
     return seqSet
 
 #Reads a single peak, from a "sequence counts file." Will look at every sequence within a certain 
-def readSinglePeak(loc, center, max_dist, minCount=1):
+def readSinglePeak(loc, center, max_dist, minCount=1, trackProgress=False):
     #fileType: 'counts' refers to a list of sequences followed by count numbers, with three lines of header information
     #minCount is the minimum count threshold accepted
     #max_dist is the maximum allowed distance from a center sequence
@@ -122,10 +122,15 @@ def readSinglePeak(loc, center, max_dist, minCount=1):
     seqSet = {}
     
     with open(loc) as f:
+        line0 = next(f)
         next(f)
-        next(f)
-        next(f)
+        next(f)            
+        
+        uniqueSplit = [elem for elem in line0.strip().split()]
+        uniques = int(uniqueSplit[-1]) #total number of unique sequences present in this round
         #for "counts" files, we skip three lines of header data
+        
+        i=0
         
         for lineRead in f:
             line = [elem for elem in (lineRead.split(' ')) if (elem != '' and elem !='\n' )]
@@ -136,15 +141,20 @@ def readSinglePeak(loc, center, max_dist, minCount=1):
                         seqSet[seq]=0
                             
                 
-
+            
+            if trackProgress:
+                i+=1
+                if i%100000 == 0:
+                    print "Read " + str(i) + " of " + str(uniques) +" sequences from " + loc
+            
     return seqSet
 
 
 #Reads all sequences in a specific k-seq round, from a "sequence counts file."
 #Will look at every sequence, unless given a whiteList dictionary object of sequences to search over 
-def readSeqs(loc, fileType='counts', minCount=1, norm2=1, whiteList={}):
+def readSeqs(loc, fileType='counts', minCount=1, norm2=1, whiteList={}, trackProgress=False):
     #fileType: 'counts' refers to a list of sequences followed by count numbers, with three lines of header information
-    #cutOff: minimum count in the k-seq start round (anything lower is discarded)
+    #minCount: minimum count in the k-seq start round (anything lower is discarded)
     #norm2: normalization constant for this round (in addition to total number of sequences)
     #whiteList: if we're only interested in a certain subset of sequences, providing them here as a dictionary will limit the search
 
@@ -162,7 +172,17 @@ def readSeqs(loc, fileType='counts', minCount=1, norm2=1, whiteList={}):
             
             next(f) #skip a blank line in the counts file
             
+            i=0
+            
             for lineRead in f:
+                
+                
+                if trackProgress:
+                    i+=1
+                    if i%100000 == 0:
+                        print "Read " + str(i) + " of " + str(int(uniques)) +" sequences from " + loc
+
+                
                 line = [elem for elem in lineRead.strip().split()]
                 if int(line[1]) >= minCount: #is the count high enough?
                     if whiteList: #is this sequence wanted?
@@ -171,8 +191,8 @@ def readSeqs(loc, fileType='counts', minCount=1, norm2=1, whiteList={}):
                     else:
                         allSeqCounts[line[0]] = float(line[1])/totals/norm2 #we're adding counts normalized by both total # of sequences and by an arbitrary second normalization constant 
 
-    return (allSeqCounts, uniques, totals)
-    #a list of all sequences we want to search over, and their appearance
+            return (allSeqCounts, uniques, totals)
+            #a list of all sequences we want to search over, and their appearance
 
 
 #Align all sequences found in the new round and their abundance to those found in previous rounds
@@ -195,7 +215,7 @@ def alignCounts(masterCounts, roundCounts, rnd, maxRnds, initialize=False):
 
 
 #The function that collects data over all kseq rounds
-def readAll(firstLoc, otherLoc, firstMin=1, otherMin=1, normList, whiteList={}, fileType="counts"):
+def readAll(firstLoc, otherLoc, normList, firstMin=1, otherMin=1, whiteList={}, fileType="counts", trackProgress=False):
     #firstLoc: The "start" round's file location (counts file)
     #otherLoc: A list of all other rounds' file locations (counts files)
     #firstMin, otherMin: minimum counts allowed for each of these rounds
@@ -205,21 +225,21 @@ def readAll(firstLoc, otherLoc, firstMin=1, otherMin=1, normList, whiteList={}, 
     masterCounts = []
     maxRnds = len(otherLoc) + 1 #the number of rounds necessary for storing counts data on
     
-    (round0counts, round0uniques, round0totals) = readSeqs(firstLoc, fileType, cutOff=firstMin, norm2=normList[0], whiteList=whiteList)
+    (round0counts, round0uniques, round0totals) = readSeqs(firstLoc, fileType, minCount=firstMin, norm2=normList[0], whiteList=whiteList, trackProgress=trackProgress)
     
     masterUniques = [round0uniques]
     masterTotals = [round0totals]
-    masterCounts = alignCounts(masterCounts, round0Counts, 0, maxRnds, initialize=True)
+    masterCounts = alignCounts(masterCounts, round0counts, 0, maxRnds, initialize=True)
     
     masterSet = set([seq[0] for seq in masterCounts])
-    print("%i sequences found in input pool" %len(round0Counts))
+    print("%i sequences found in input pool" %len(round0counts))
 
     
     thisRnd = 0
     for loc in otherLoc:
 
         thisRnd += 1
-        (seqs, uniqs, tots) = readSeqs(loc, fileType, otherMin, normList[thisRnd], whiteList=masterSet)
+        (seqs, uniqs, tots) = readSeqs(loc, fileType, otherMin, normList[thisRnd], whiteList=masterSet, trackProgress=trackProgress)
         
         masterUniques.append(uniqs)
         masterTotals.append(tots)
@@ -228,7 +248,7 @@ def readAll(firstLoc, otherLoc, firstMin=1, otherMin=1, normList, whiteList={}, 
     return (masterCounts, masterUniques, masterTotals)
 
 #This function takes all collected data, and calculates k*t and A kinetic values for all sequences, following [surviving fraction] = A(1-Exp(-k*[S]*t))
-def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, separator=',', substrateConc, rndsToAvg=[], rndsToError=[], centerSeq='', verbose=True):
+def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, substrateConc, separator=',', rndsToAvg=[], rndsToError=[], centerSeq='', verbose=True, trackProgress=False):
     #outLoc: location/name of output file
     #counts, uniques, tots: output from a previous readAll
     #firstLoc/otherLoc: names of rounds read (to use as column headers)
@@ -240,6 +260,7 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, separator
     #verbose: if set to true, will provide all round abundance data as well as kseq data for all sequences; if false, will only provide name and kseq data 
     
     
+    
     #Setting up some header data:
     line0 = 'Seq. Name'
     if verbose:
@@ -247,9 +268,8 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, separator
         for loc in otherLoc:
             line0 += (separator + 'Surv. fraction ' + loc)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
-    if fitAvg:
+    if rndsToAvg:
         line0 += (separator + 'A by avg' + separator + 'k*t by avg')
-    if replicates:
         line0 += (separator + 'A st.dev' + separator + 'k*t st.dev')
     if centerSeq:
         line0 += (separator + 'distance from ctr')
@@ -290,9 +310,10 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, separator
                 
         for seq in counts:
             
-            seqs_counted += 1
-            if seqs_counted % 1000 == 0:
-                print ("calculated " + str(seqs_counted) + " out of " + str(total_seqs) + " sequences")
+            if trackProgress:
+                seqs_counted += 1
+                if seqs_counted % 1000 == 0:
+                    print ("calculated " + str(seqs_counted) + " out of " + str(int(total_seqs)) + " sequences")
             
             lineOut = seq[0] #seq's sequence value
             
@@ -316,7 +337,7 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, separator
                     avgs.append(np.average(timePtCounts))
                 ydata = np.array(avgs)
                 
-                
+                                
                 try:
                     popt, pcov = curve_fit(func, xdata, ydata, method='trf', bounds=(0, [1., np.inf])) #fit k and A from xdata (concentration array) and ydata (reacted fraction array)
                 except RuntimeError:
