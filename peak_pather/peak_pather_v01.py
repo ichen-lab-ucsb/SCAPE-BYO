@@ -71,12 +71,12 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
         if fileType == 'counts':
             
             next(f)
+            next(f)            
             
-            line1 = next(f)
-            totalSplit = [elem for elem in line1.strip().split()]
-            totals = int(totalSplit[-1]) #total number of unique sequences present in this round
+            line2 = next(f)
+            uniqueSplit = [elem for elem in line2.strip().split()]
+            uniques = int(uniqueSplit[-1]) #total number of unique sequences present in this round
             
-            next(f)
             
             i = 0
                         
@@ -87,7 +87,7 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
                 if trackProgress:
                     i += 1
                     if i % 100000 == 0:
-                        print "Read " + str(i) + " of " + str(totals) +" sequences from counts file"
+                        print "Read " + str(i) + " of " + str(uniques) +" sequences from counts file"
                 
                 if int(line[1]) >= minCount:
                     allSeqCounts[line[0]] = int(line[1])
