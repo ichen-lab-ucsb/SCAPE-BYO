@@ -264,7 +264,7 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, substrate
     #Setting up some header data:
     line0 = 'Seq. Name'
     if verbose:
-        line0 += (separator + 'Abun. ' + firstLoc)
+        line0 += (separator + 'Sequence amount ' + firstLoc)
         for loc in otherLoc:
             line0 += (separator + 'Surv. fraction ' + loc)
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -318,7 +318,8 @@ def calculateKinetics(outLoc, counts, uniqs, tots, firstLoc, otherLoc, substrate
             lineOut = seq[0] #seq's sequence value
             
                             
-            if verbose:        
+            if verbose:
+                lineOut += (separator + str(seq[1][0]))
                 for value in seq[1][1:]: #print surviving fraction of sequences for each k-seq round, normalized by start round abundance
                     if seq[1][0]>0:
                         lineOut += (separator + str(value/(float(seq[1][0]))))
