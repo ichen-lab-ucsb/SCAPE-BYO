@@ -75,7 +75,7 @@ The correlation of fitness effects,
 <a href="https://www.codecogs.com/eqnedit.php?latex=\gamma&space;_{d}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\gamma&space;_{d}" title="\gamma _{d}" /></a>, 
 is calculated following [Ferretti et al., 2016](https://www.sciencedirect.com/science/article/pii/S0022519316000771?via%3Dihub).
 
-The Python script (`ActivityCorrelationGamma.py`) and excel source file (`ActivityObservedData.xlsx`) can be found in the folder `Gamma_correlation`. Each spreadsheet in the excel file corresponds to a different family and follows the same format: sequences in the first column, calculated activity in the second column (included values under the baseline activity), calculate activity or baseline activity in the third column, logarithmic values in the fourth column.
+The Python script (`ActivityCorrelationGamma.py`) and excel source file (`ActivityObservedData.xlsx`) can be found in the folder `Gamma_correlation`. Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
 
 ### How to use the script to calculate correlation of fitness effects:
 
