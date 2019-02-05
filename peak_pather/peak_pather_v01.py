@@ -29,34 +29,39 @@ def main():
     parser.add_argument("output", help="output file location/name")
     parser.add_argument("start_seq", help="path start sequence")
     parser.add_argument("end_seq", help="path end sequence")
-    parser.add_argument("-i", "--in_type", default=["counts"], help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
+    parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
     parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
     parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
     parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
     parser.add_argument("--max_step", type=int, default=1, help='minimum step size allowed by search paths; default is 1')
-    parser.add_argument("-d","--dist_type", default="edit", help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
+    parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
+    parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
 
     args=parser.parse_args()
     
-    maxPath = args.max_legnth
+    maxPath = args.max_length
     if args.max_length == 0:
         maxPath = 2*len(args.start_seq) #set our maximum path length   
         
-    counts = readSeqs(args.input, args.in_type, args.min_count) #generate a dictionary of all sequences present and their count
+    counts = readSeqs(args.input, args.in_type, args.min_count, args.track_progress) #generate a dictionary of all sequences present and their count
     
-    bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths) #find the N best pathways
+    
+    bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
 
     with open(args.output,'w') as fo:
         
         fo.write('placeholder text \n placeholder text \n   \n')
             
         for path in bestPaths:
-            fo.write('here is a path\n' + str(path[5]) + '\n')
+            fo.write('\nhere is a path\n')
+            fo.write('step #,sequence,step size,total distance,sequence count\n')
+            fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(path[0]) + ',' + str(counts[path[4]]) + '\n')
+
             for step in path[6]:
-                fo.write (step+'\n')
+                fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
 
 # Create a hashmap keyed to all sequences present in the population, returning a dictionary of all sequences we want to search over, and the number of times they appear in that round's sequencing data
-def readSeqs(loc, fileType='counts', minCount=2):
+def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
     #fileType: 'counts' refers to a list of sequences followed by count numbers, with three lines of header information
     #min_count is the minimum count threshold accepted
     
@@ -66,12 +71,23 @@ def readSeqs(loc, fileType='counts', minCount=2):
         if fileType == 'counts':
             
             next(f)
+            
+            line1 = next(f)
+            totalSplit = [elem for elem in line1.strip().split()]
+            totals = int(totalSplit[-1]) #total number of unique sequences present in this round
+            
             next(f)
-            next(f)
+            
+            i = 0
                         
             for lineRead in f:
                 line = [elem for elem in (lineRead.split(' ')) if (elem != '' and elem !='\n' )]
-                
+           
+           
+                if trackProgress:
+                    i += 1
+                    if i % 100000 == 0:
+                        print "Read " + str(i) + " of " + str(totals) +" sequences from counts file"
                 
                 if int(line[1]) >= minCount:
                     allSeqCounts[line[0]] = int(line[1])
@@ -132,20 +148,20 @@ def greedyEdgesTricks(seq1, seqCounts, distanceType='edit', maxStep=1):
 
 
 #main function for generating pathways 
-def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1, numPaths = 1):
+def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1, numPaths = 1, trackProgress=False):
     
     minPaths = [] #a heap of the shortest paths generated; will automatically keep paths sorted
     endDists = {} #a map of the shortest possible path distances from each sequence to the end sequence  
     
-    test1 = 0
-    test2 = 0
+    
     
     if distanceType == 'edit':
+        
         
         seqCounts = {} #a dictionary of counts for all sequences valid to iterate over 
         
         for seq in fullCounts:
-            
+                        
             if (Levenshtein.distance(seq, startSeq)+Levenshtein.distance(seq, endSeq)) <= maxPath:
                 seqCounts[seq] = fullCounts[seq]
                 
@@ -167,6 +183,7 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
             
     
     #Each object stored in our "minPaths" heap has the format (traveled distance, maximum distance, minimum count, total steps, sequence, [back dist, this dist, this count, this step num, this sequence], list of paths backwards to the starting sequence)
+
     
     heappush(minPaths, (endDists[startSeq], 0, fullCounts[startSeq], 0, startSeq, [0, 0, fullCounts[startSeq], 0, startSeq], []))
     #we initialize the heap with a single tuple containing the starting sequence and an empty back-path list
@@ -178,7 +195,10 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     
     successLength = 0
 
+    i = 0
+    
     while(pathsFound == False): #keep iterating until we find all the paths we need
+
         
         thisPath = heappop(minPaths)
         
@@ -194,7 +214,15 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
         thisSeq = thisPath[4] #what sequence have we reached so far?
         
         newNode = False #has this sequence been found before?
-        
+
+        if trackProgress:
+            i += 1
+            if i % 100 == 0:
+                print str(i) + " edges traveled"
+                print str(len(minPaths)) + " edges in queue"
+                print "distance traveled: " + str(thisPathDist)
+                print "shortest possible remaining distance: " + str(thisMaxDist)
+                print " " 
         
         if thisSeq in visited:
             if visited[thisSeq] < numPaths: #not worth looking at the sequence "node" we've just reached if we've already reached it at least N times along shorter paths
