@@ -91,14 +91,12 @@ These can be added to additionally configure pathfinding. Most require an additi
                         on how much progress the code has made
 
 ### Output:
-The output file from this script contains a list of the `NUM_PATHS` top pathways. Each is provided as a list of comma-separated values, with the data on each column (denoted by a header) corresponding to:
+The output file from this script contains a csv (or other similarly-formatted) spreadsheet of all sequences for which k-Seq data is calculated. The first row is column headers, followed by a second row describing the number of unique sequences in each round, and a third row describing the total numbers of sequences. (We found keeping this data close by to be occasionally helpful in analysis).
 
-`step #` The number of steps from the sequence in this column to the start sequence
+For each sequence's k-Seq output (that is, each row), the values in each column correspond to the following:
 
-`sequence` The sequence of the node at this step along the pathway
+`Seq. Name` The sequence identity. Same as sequence provided in input counts file.
 
-`step size` The distance between this sequence along the pathway and the previous sequence
+`Sequence amount` (Only if `-v` is enabled) The total amount of this sequence present in the test tube at the start of k-seq. Units correspond to normalization constants (e.g. if the normalization units are 1/ng, this will be in ng of sequence).
 
-`total distance` The total distance of all steps up to this one
-
-`sequence count` The count of this particular sequence in the counts file. May correspond to a different value, e.g. if the input file is a list of sequences and their fitness value instead of sequencing count.
+`Surv. fraction ROUND_NAME` (Only if `-v` is enabled) The fraction of this sequence that survives selection to be sequenced in sample `ROUND_NAME`. Should ideally be < 1 for all sequences in all rounds.
