@@ -30,7 +30,7 @@ def main():
 	parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
 	parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
 	parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
-	parser.add_argument("--max_step", type=int, default=1, help='minimum step size allowed by search paths; default is 1')
+	parser.add_argument("--max_step", type=int, default=1, help='maximum step size allowed by search paths; default is 1')
 	parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
 	parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
 
