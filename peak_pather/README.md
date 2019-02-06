@@ -24,6 +24,9 @@ python peak_pather_v01 input output start_seq end_seq
 `end_seq`               Path end sequence (e.g. 'CCACACTTCAAGCAATCGGTC')
   
  `-h`, `--help`            Show help message and exit
+
+#### Optional arguments:
+These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
   `-i IN_TYPE`, `--in_type IN_TYPE`
                         Set input file type; default is 'counts', which
                         assumes three lines of header data followed by lines
@@ -33,46 +36,18 @@ python peak_pather_v01 input output start_seq end_seq
   `-n NUM_PATHS`, `--num_paths NUM_PATHS`
                         Number of best pathways to be generated with each run (NUM_PATHS must be an integer). Default is 1.
                         
-  --max_length MAX_LENGTH
-                        maximum length of path searched before giving up;
-                        defaults to twice the length of the starting sequence
-  --min_count MIN_COUNT
-                        minimum count of sequences searched (the program
+ `--max_length MAX_LENGTH`
+                        Maximum length of path searched before giving up;
+                        defaults to twice the length of the starting sequence. (MAX_LENGTH must be an integer)
+  `--min_count MIN_COUNT`
+                        Minimum count of sequences searched (the program
                         discards any sequences of lower count); default is 2
                         (setting lower than 2 may increase runtime
-                        dramatically)
-  --max_step MAX_STEP   minimum step size allowed by search paths; default is
-                        1
-  -d DIST_TYPE, --dist_type DIST_TYPE
-                        distance metric used to find shortest pathway;
-                        defaults to "edit" but "hamming" is also allowed
-  -p, --track_progress  if this flag is enabled, terminal will output updates
-                        on how much progress the code has made
-
-#### Optional arguments:
-These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
-
-  -h, --help            show this help message and exit
-  -i IN_TYPE, --in_type IN_TYPE
-                        set input file type; default is 'counts', which
-                        assumes three lines of header data followed by lines
-                        of the format 'sequence count' where count is an
-                        integer
-  -n NUM_PATHS, --num_paths NUM_PATHS
-                        number of best pathways to be generated with each run;
-                        default is 1
-  --max_length MAX_LENGTH
-                        maximum length of path searched before giving up;
-                        defaults to twice the length of the starting sequence
-  --min_count MIN_COUNT
-                        minimum count of sequences searched (the program
-                        discards any sequences of lower count); default is 2
-                        (setting lower than 2 may increase runtime
-                        dramatically)
-  --max_step MAX_STEP   minimum step size allowed by search paths; default is
-                        1
-  -d DIST_TYPE, --dist_type DIST_TYPE
-                        distance metric used to find shortest pathway;
-                        defaults to "edit" but "hamming" is also allowed
-  -p, --track_progress  if this flag is enabled, terminal will output updates
+                        dramatically). (MIN_COUNT must be an integer)
+  `--max_step MAX_STEP`   Maximum step size allowed by search paths; default is
+                        1. (MAX_STEP must be an integer)
+  `-d DIST_TYPE`, `--dist_type DIST_TYPE`
+                        Distance metric used to find shortest pathway. `DIST_TYPE`
+                        defaults to `edit` but `hamming` is also allowed.
+  `-p`, `--track_progress`  If this flag is enabled, the terminal will output updates
                         on how much progress the code has made
