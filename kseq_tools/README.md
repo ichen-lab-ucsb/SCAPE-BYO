@@ -44,10 +44,15 @@ python kseq_tools_v01 start_round kseq_rounds output normalization_list substrat
                         rounds to average together for fits (e.g. row 1 as "1,2,3" and row 2 as "4,5,6"
                         will average the abundances of rounds 1,2, and 3, and
                         then also average 4,5, and 6). If only a single
-                        replicate was carried out, then the file should only contain one number per round (e.g. row 1 as "1," row 2 as "2", etc.) If you just   want abundance without kseq calculations, leave blank. Must be the same number of rows as `substrate_concs`
-                        See example use case (linked to at the top of README) if confused.
+                        replicate was carried out, then the file should only contain one number per round (e.g. row 1 as "1," row 2 as "2", etc.) If you just   want abundance without kseq calculations, leave this file blank. Must be the same number of rows as `substrate_concs`
+                        See example use case (linked to at the top of README) if confused. Future versions of this script will not require this option.
+                        
+    `rounds_to_error`
+  File containing comma-separated lists of of sets of
+                        rounds used for each replicate. If no replicates,
+                        leave this file blank (and st.dev will be based on goodness of
+                        fit instead). See example use case (linked to at the top of README) if confused. Future versions of this script will not require this option.
 
-  
 
 #### Optional arguments:
 These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
@@ -100,3 +105,13 @@ For each sequence's k-Seq output (that is, each row), the values in each column 
 `Sequence amount` (Only if `-v` is enabled) The total amount of this sequence present in the test tube at the start of k-seq. Units correspond to normalization constants (e.g. if the normalization units are 1/ng, this will be in ng of sequence).
 
 `Surv. fraction ROUND_NAME` (Only if `-v` is enabled) The fraction of this sequence that survives selection to be sequenced in sample `ROUND_NAME`. Should ideally be < 1 for all sequences in all rounds.
+
+`A by avg` The value of A calculated from fitting averaged data sets.
+
+`k*t by avg` The value of (k)(t) calculated from fitting averaged data sets.
+
+`A st. dev` The standard deviation of A calculated from the values fit to multiple replicates.
+
+`k*t st. dev` The standard deviation of (k)(t) calculated from values fit to multiple replicates.
+
+`distance from ct` The distance of this sequence from the peak center (only if `SEARCH_SET` is `center`)
