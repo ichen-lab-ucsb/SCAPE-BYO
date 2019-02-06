@@ -23,10 +23,12 @@ python peak_pather_v01 input output start_seq end_seq
 
 `end_seq`               Path end sequence (e.g. 'CCACACTTCAAGCAATCGGTC')
   
- `-h`, `--help`            Show help message and exit
 
 #### Optional arguments:
 These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
+
+ `-h`, `--help`            Show help message and exit
+
   `-i IN_TYPE`, `--in_type IN_TYPE`
                         Set input file type; default is 'counts', which
                         assumes three lines of header data followed by lines
