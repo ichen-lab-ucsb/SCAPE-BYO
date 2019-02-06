@@ -54,32 +54,39 @@ These can be added to additionally configure pathfinding. Most require an additi
 
  `-h`, `--help`            Show help message and exit
 
+`-s SEARCH_SET [SEARCH_SET ...]`, `--search_set SEARCH_SET [SEARCH_SET ...]` If used, this option will cause the script to only run k-seq over a subset of all sequences. Can be used to significantly speed up use. over. By default, search set
+                        is set to `all`, generating k-seq data for all sequences in
+                        the start round. If set to `center CENTER_SEQUENCE DISTANCE` (requires three arguments, the second
+                        being a sequence and the third being an integer), will
+                        only generate kseq data over all sequences within a
+                        fixed distance of the center. If set to `list
+                        SEQUENCE_LIST_LOCATION`, will only generate data over
+                        the sequences listed in a file at
+                        the given location (this file should contain one sequence per row).
+
+  `-v`, `--verbose`         if this flag is used, output file will include data
+                        on sequence concentration at every kseq round,
+                        resulting in a larger output file. Default does not add this information.
+
+
   `-i IN_TYPE`, `--in_type IN_TYPE`
-                        Set input file type; default is 'counts', which
+                        Set input file type; default is `counts`, which
                         assumes three lines of header data followed by lines
                         of the format 'sequence count' where count is an
                         integer. Future versions will include additional options.
                         
-  `-n NUM_PATHS`, `--num_paths NUM_PATHS`
-                        Number of best pathways to be generated with each run (NUM_PATHS must be an integer). Default is 1.
+  `-o OUT_TYPE`, `--out_type OUT_TYPE`
+                        Set output file type; default is `csv` or comma-
+                        separated values, a format that can be used by a
+                        variety of programs; other valid options are currently
+                        `tsv` or tab-separated values
                         
- `--max_length MAX_LENGTH`
-                        Maximum length of path searched before giving up;
-                        defaults to twice the length of the starting sequence. (MAX_LENGTH must be an integer)
- 
  `--min_count MIN_COUNT`
                         Minimum count of sequences searched (the program
-                        discards any sequences of lower count); default is 2
-                        (setting lower than 2 may increase runtime
-                        dramatically). (MIN_COUNT must be an integer)
-  
-  `--max_step MAX_STEP`   Maximum step size allowed by search paths; default is
-                        1. (MAX_STEP must be an integer)
-  
-  `-d DIST_TYPE`, `--dist_type DIST_TYPE`
-                        Distance metric used to find shortest pathway. `DIST_TYPE`
-                        defaults to `edit` but `hamming` is also allowed.
-  
+                        discards any sequences of lower count). Defaults to 1,
+                        keeping all sequences present in the "k-seq start"
+                        round, but can be set higher. (MIN_COUNT must be an integer)
+    
   `-p`, `--track_progress`  If this flag is enabled, the terminal will output updates
                         on how much progress the code has made
 
