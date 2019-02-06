@@ -57,3 +57,16 @@ These can be added to additionally configure pathfinding. Most require an additi
   
   `-p`, `--track_progress`  If this flag is enabled, the terminal will output updates
                         on how much progress the code has made
+
+### Output:
+The output file from this script contains a list of the `NUM_PATHS` top pathways. Each is provided as a list of comma-separated values, with the data on each column (denoted by a header) corresponding to:
+
+`step #` The number of steps from the sequence in this column to the start sequence
+
+`sequence` The sequence of the node at this step along the pathway
+
+`step size` The distance between this sequence along the pathway and the previous sequence
+
+`total distance` The total distance of all steps up to this one
+
+`sequence count` The count of this particular sequence in the counts file. May correspond to a different value, e.g. if the input file is a list of sequences and their fitness value instead of sequencing count.
