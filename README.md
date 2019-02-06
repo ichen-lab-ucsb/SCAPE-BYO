@@ -44,26 +44,26 @@ python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output_file] example
 
 Current input file requirements for each rounds are "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html. Future versions of this script will be included with tools to more easily process data from a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
 
-For usage/argument details, run `python kseq_tools_v01.py -h`
+For usage/argument details, see [detailed readme](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/README.md) or run `python kseq_tools_v01 -h`.
 
 
 ## Evolutionary Pathways
 The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the A* algorithm (a decent description can be found on [Wikipedia](https://en.wikipedia.org/wiki/A*_search_algorithm), and iterating over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The script provided here finds the N best pathways between two sequences, ranked by 1) Shortest total path length, 2) Smallest maximum step size, 3) Smallest average step size, 4) Largest minimum sequence count, using a sequence counts file as the reference map (this could easily be replaced with highest minimum fitness, if the reference file is a list of sequences and their fitnesses instead).
 
 
-Current input file requirements are a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html. Future versions of this script will be included with tools to more easily process data from
-a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
+Current input file requirements are a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html. Future versions of this script will be included with tools to more easily process data from a number of other tools currently used to process high-throughput sequencing data; however, the version of the peak_pather script used in this publication (v0.1) will remain here for posterity.
 
 ### How to use the script to calculate evolutionary pathways:
 
 The pathways described in this publication are calculated as follows (with the flag -p to output progress data to the terminal, as the script can take a while to run):
 
 ```
-python peak_pather_v01.py R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
+python peak_pather_v01 R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
 ```
 Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, maximum step size was set at 1, then incremented by 1 until 5 pathways were found; the script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
 
-For usage/argument details, run `python peak_pather_v01.py -h`
+
+For usage/argument details, see [detailed readme](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/peak_pather/README.md) or run `python peak_pather_v01 -h`.
 
 ## Correlation of Fitness Effects
 
