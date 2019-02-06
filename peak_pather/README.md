@@ -14,11 +14,65 @@ The script can be called as follows:
 ```
 python peak_pather_v01 input output start_seq end_seq
 ```
-#### Required arguments (position matters):
-`input`                 location/name of file containing sequence counts for the round to be iterated over
+#### Required arguments (positionally dependent):
+`input`                 Location/name of file containing sequence counts for the round to be iterated over (e.g. `R5c-counts.txt`). Currently requires a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html. 
 
-`output`                output file location/name
+`output`                Output file location/name (e.g. `paths-output.txt`)
 
-`start_seq`             path start sequence
+`start_seq`             Path start sequence (e.g. 'CTACTTCAAACAATCGGTCTG')
 
-`end_seq`               path end sequence
+`end_seq`               Path end sequence (e.g. 'CCACACTTCAAGCAATCGGTC')
+  
+ `-h`, `--help`            Show help message and exit
+  `-i IN_TYPE`, `--in_type IN_TYPE`
+                        Set input file type; default is 'counts', which
+                        assumes three lines of header data followed by lines
+                        of the format 'sequence count' where count is an
+                        integer. Future versions will include additional options.
+                        
+  `-n NUM_PATHS`, `--num_paths NUM_PATHS`
+                        Number of best pathways to be generated with each run (NUM_PATHS must be an integer). Default is 1.
+                        
+  --max_length MAX_LENGTH
+                        maximum length of path searched before giving up;
+                        defaults to twice the length of the starting sequence
+  --min_count MIN_COUNT
+                        minimum count of sequences searched (the program
+                        discards any sequences of lower count); default is 2
+                        (setting lower than 2 may increase runtime
+                        dramatically)
+  --max_step MAX_STEP   minimum step size allowed by search paths; default is
+                        1
+  -d DIST_TYPE, --dist_type DIST_TYPE
+                        distance metric used to find shortest pathway;
+                        defaults to "edit" but "hamming" is also allowed
+  -p, --track_progress  if this flag is enabled, terminal will output updates
+                        on how much progress the code has made
+
+#### Optional arguments:
+These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
+
+  -h, --help            show this help message and exit
+  -i IN_TYPE, --in_type IN_TYPE
+                        set input file type; default is 'counts', which
+                        assumes three lines of header data followed by lines
+                        of the format 'sequence count' where count is an
+                        integer
+  -n NUM_PATHS, --num_paths NUM_PATHS
+                        number of best pathways to be generated with each run;
+                        default is 1
+  --max_length MAX_LENGTH
+                        maximum length of path searched before giving up;
+                        defaults to twice the length of the starting sequence
+  --min_count MIN_COUNT
+                        minimum count of sequences searched (the program
+                        discards any sequences of lower count); default is 2
+                        (setting lower than 2 may increase runtime
+                        dramatically)
+  --max_step MAX_STEP   minimum step size allowed by search paths; default is
+                        1
+  -d DIST_TYPE, --dist_type DIST_TYPE
+                        distance metric used to find shortest pathway;
+                        defaults to "edit" but "hamming" is also allowed
+  -p, --track_progress  if this flag is enabled, terminal will output updates
+                        on how much progress the code has made
