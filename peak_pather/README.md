@@ -16,6 +16,9 @@ python peak_pather_v01 input output start_seq end_seq
 ```
 #### Required arguments (position matters):
 `input`                 location/name of file containing sequence counts for the round to be iterated over
+
 `output`                output file location/name
+
 `start_seq`             path start sequence
+
 `end_seq`               path end sequence
