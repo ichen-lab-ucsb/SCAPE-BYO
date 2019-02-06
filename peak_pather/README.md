@@ -39,15 +39,19 @@ These can be added to additionally configure pathfinding. Most require an additi
  `--max_length MAX_LENGTH`
                         Maximum length of path searched before giving up;
                         defaults to twice the length of the starting sequence. (MAX_LENGTH must be an integer)
-  `--min_count MIN_COUNT`
+ 
+ `--min_count MIN_COUNT`
                         Minimum count of sequences searched (the program
                         discards any sequences of lower count); default is 2
                         (setting lower than 2 may increase runtime
                         dramatically). (MIN_COUNT must be an integer)
+  
   `--max_step MAX_STEP`   Maximum step size allowed by search paths; default is
                         1. (MAX_STEP must be an integer)
+  
   `-d DIST_TYPE`, `--dist_type DIST_TYPE`
                         Distance metric used to find shortest pathway. `DIST_TYPE`
                         defaults to `edit` but `hamming` is also allowed.
+  
   `-p`, `--track_progress`  If this flag is enabled, the terminal will output updates
                         on how much progress the code has made
