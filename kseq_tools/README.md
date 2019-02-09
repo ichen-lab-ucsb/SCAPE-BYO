@@ -39,7 +39,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 These options can be added to additionally configure pathfinding. Most options require an additional argument. A comma indicates that an option can be called multiple ways.
 
-`-h`, `--help` - Show help message and exit
+`-h`, `--help` - Show help message and exit.
 
 `-s SEARCH_SET [SEARCH_SET ...]`, `--search_set SEARCH_SET [SEARCH_SET ...]` - If used, this option will cause the script to only run k-seq over a subset of all sequences. By default, search set is set to `all`, generating k-seq data for all sequences in the start round. If set to `center CENTER_SEQUENCE DISTANCE` (requires three arguments, the second being a sequence and the third being an integer), will only generate kseq data over all sequences within a fixed distance of the center. If set to `list SEQUENCE_LIST_LOCATION`, will only generate data over the sequences listed in a file at the given location (this file should contain one sequence per row).
 
