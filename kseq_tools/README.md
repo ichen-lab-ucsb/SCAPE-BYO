@@ -1,13 +1,11 @@
 
 ## Tool for calculating k-Seq data over a set of rounds whose corresponding DNA has been sequenced.
 
-We expect future versions of this script to be updated/included with additional tools and a slightly improved algorithm. As it is used in a publication, however, v0.1 of the peak_pather script will remain here for posterity.
-
 ### Goal:
 
 The kseq_tools calculates catalytic kinetics for a population of sequences, using the k-seq
 methodology. Takes a k-seq 'start round' and a list of additional rounds (each corresponding to selection under known conditions);
-gives predicted constants A and k*t for catalysis following [surviving
+gives predicted constants A and k&ast;t for catalysis following [surviving
 fraction] = A(1-Exp(-k*[S]*t)). If generally confused over use, see example
 use case given on SCAPE-BYO readme [here](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/README.md).
 
@@ -17,9 +15,29 @@ use case given on SCAPE-BYO readme [here](https://github.com/ichen-lab-ucsb/SCAP
 The script can be called as follows:
 
 ```
-python kseq_tools_v01 start_round kseq_rounds output normalization_list substrate_concs rounds_to_average rounds_to_error
+python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list substrate_concs rounds_to_average rounds_to_error
 ```
+
+To reproduce the numerical results reported in this publication, using the input files that an be found in the folder `kseq_tools`:
+
+```
+python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -p
+```
+
+This might take 10-30 hours on a standard personal computer. Some example cases that would take less running time:
+
+- Calculate k-seq data for all sequences present at count ≥ 10 in round 5 of the selection:
+```
+python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -m 10 -p
+```
+
+- Calculate k-seq data for all sequences present in family 1A.1:
+```
+python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -s center CTACTTCAAACAATCGGTCTG 3 -p
+```
+
 #### Required arguments (positionally dependent):
+
 `start_round`                 Location/name of file containing sequence counts for the pre-k-seq population (e.g. `R5c-counts.txt`). Currently requires a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in pool, of the format "sequence count" where count is an integer. Such files are produced by our Galaxy tools, currently available at https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html. 
 
 `kseq_rounds`                Location/name of file containing a list of additional
@@ -55,6 +73,7 @@ python kseq_tools_v01 start_round kseq_rounds output normalization_list substrat
 
 
 #### Optional arguments:
+
 These can be added to additionally configure pathfinding. Most require an additional argument. A comma indicates that an option can be called multiple ways.
 
  `-h`, `--help`            Show help message and exit
@@ -96,6 +115,7 @@ These can be added to additionally configure pathfinding. Most require an additi
                         on how much progress the code has made
 
 ### Output:
+
 The output file from this script contains a csv (or other similarly-formatted) spreadsheet of all sequences for which k-Seq data is calculated. The first row is column headers, followed by a second row describing the number of unique sequences in each round, and a third row describing the total numbers of sequences. (We found keeping this data close by to be occasionally helpful in analysis).
 
 For each sequence's k-Seq output (that is, each row), the values in each column correspond to the following:
