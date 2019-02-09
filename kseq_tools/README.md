@@ -43,9 +43,9 @@ The following options can be utilized to adjust the behaviour of the script. Mos
 
 `-v`, `--verbose` - If this flag is used, output file will include data on sequence concentration at every kseq round.
                         
-`-o OUT_TYPE`, `--out_type OUT_TYPE` - Set output file type to `csv` (comma-separated values) or `tsv` (tab-separated values). Default output file type is `csv`.
+`-o OUT_TYPE`, `--out_type OUT_TYPE` - Set output file type to `csv` (comma-separated values) or `tsv` (tab-separated values). Default output file type is csv.
                         
-`--min_count MIN_COUNT` - Minimum count of sequences searched (must be an integer). Defaults to 1 (searching through all sequences present in the "k-seq start" round. 
+`--min_count MIN_COUNT` - Minimum count of sequences searched (must be an integer). Default value is 1 (searching through all sequences present in the "k-seq start" round. 
     
 `-p`, `--track_progress` - If this flag is used, progress will be printed in the terminal. 
 
