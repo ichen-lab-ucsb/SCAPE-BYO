@@ -34,13 +34,13 @@ For more information on usage, see the [detailed readme file](https://github.com
 
 
 ## Evolutionary Pathways
-The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script 'peak_pather_v01.py' finds the N best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map.
+The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script `peak_pather_v01.py` finds the N best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map.
 
 Currently the code requires a "counts" file consisting of three lines of metadata followed by  one line per unique sequence in the pool, in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
 
 ### How to use the script to calculate evolutionary pathways:
 
-The pathways described in this publication are calculated as follows (with the flag -p to output progress data to the terminal):
+The pathways described in this publication are computed as follows:
 
 ```
 python peak_pather_v01.py R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
