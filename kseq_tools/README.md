@@ -21,7 +21,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 `kseq_rounds` - File containing a list of filenames, each of which contains sequence counts for a post-k-seq population. Each of these files must share the same format as `start_round`.
 
-`output` - Output file location/name (e.g. `kseq-data.csv`)
+`output` - Name of the output file (e.g. `kseq-data.csv`)
 
 `normalization_list` - List of normalization factors for each round, starting with the start round. One value per line. For the start round, should typically be set equal to 1/[total amount of DNA/RNA/protein] present at start of k-seq selection rounds, and for all other rounds should be 1/[amount of DNA/RNA/protein] remaining after selection step. The units here will correspond to the units used in the script's output.
 
