@@ -4,9 +4,7 @@
 ### Goal:
 
 The kseq_tools calculates catalytic kinetics for a population of sequences, using the k-seq
-methodology. Takes a k-seq 'start round' and a list of additional rounds (each corresponding to selection under known conditions);
-gives predicted constants A and k&ast;t for catalysis following [surviving
-fraction] = A(1-Exp(-k&ast;[S]&ast;t)). 
+methodology. Takes a k-seq 'start round' and a list of additional rounds (each corresponding to selection under known conditions); gives predicted constants A and k&ast;t for catalysis following [surviving fraction] = A(1-Exp(-k&ast;[S]&ast;t)). 
 
 
 ### Input:
@@ -19,7 +17,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 #### Required arguments (positionally dependent):
 
-`start_round` - Location/name of file containing sequence counts for the pre-k-seq population (e.g. `R5c-counts.txt`). The code requires a "counts" file consisting of three lines of metadata followed by one line per unique sequence in the pool, in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
+`start_round` - File containing sequence counts for the pre-k-seq population (e.g. `R5c-counts.txt`). The code requires a "counts" file consisting of three lines of metadata followed by one line per unique sequence in the pool, in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
 
 `kseq_rounds` - File containing a list of filenames, each of which contains sequence counts for a post-k-seq population. Each of these files must share the same format as `start_round`.
 
@@ -37,7 +35,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 #### Optional arguments:
 
-These options can be added to additionally configure pathfinding. Most options require an additional argument. A comma indicates that an option can be called multiple ways.
+The following options can be utilized to adjust the behaviour of the script. Most options require an additional argument. A comma indicates that an option can be called multiple ways.
 
 `-h`, `--help` - Show help message and exit.
 
