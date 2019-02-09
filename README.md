@@ -13,8 +13,6 @@ by Abe D. Pressman, Ziwei Liu, Evan Janzen, Celia Blanco, Ulrich F. Muller, Gera
 
 ## Prerequisites
 
-What things you need to install the software and how to install them:
-
 - Python 2.7  
 
 ## k-seq Analysis
