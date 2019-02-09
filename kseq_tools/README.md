@@ -3,8 +3,8 @@
 
 ### Goal:
 
-The kseq_tools calculates catalytic kinetics for a population of sequences, using the k-seq
-methodology. Takes a k-seq 'start round' and a list of additional rounds (each corresponding to selection under known conditions); gives predicted constants A and k&ast;t for catalysis following [surviving fraction] = A(1-Exp(-k&ast;[S]&ast;t)). 
+The kseq_tools script calculates catalytic kinetics for a population of sequences, using the k-seq
+methodology. The script takes as input a k-seq 'start round' and a list of additional rounds (each corresponding to selection under known conditions). The output consist of predicted constants A and k&ast;t for catalysis following [surviving fraction] = A(1-Exp(-k&ast;[S]&ast;t)). 
 
 
 ### Input:
