@@ -8,6 +8,11 @@
 #Such files are produced by our Galaxy tools, currently available at the Chen Lab website:
 # https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html
 
+#by Abe Pressman
+#contact: abe@engineering.ucsb.edu
+
+#use as: python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list substrate_concs rounds_to_average rounds_to_error 
+
 import numpy as np
 from scipy.optimize import curve_fit
 import Levenshtein
