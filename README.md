@@ -79,7 +79,7 @@ To reproduce the numerical results reported in the publication, run:
 python ActivityCorrelationGamma.py ActivityObservedData.xlsx [sheet_name] [correlation_distance]
 ```
 
-where `sheet_name` corresponds to either `Family_2.1`, `Family_1A.1`, `Family_1B.1`, `Family_1B.2` or `Family_1A.2`. Correlation_distance is an integer number [0..4]
+where `sheet_name` corresponds to either `Family_2.1`, `Family_1A.1`, `Family_1B.1`, `Family_1B.2` or `Family_1A.2`. Correlation_distance is an integer number {0..4}.
 
 ## Built With
 
