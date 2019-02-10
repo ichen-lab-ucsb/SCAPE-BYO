@@ -74,7 +74,7 @@ is calculated following [Ferretti et al., 2016](https://www.sciencedirect.com/sc
 
 ### How to use the script to calculate correlation of fitness effects:
 
-To reproduce the numerical results reported in the publication, the python script [ActivityCorrelationGamma.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/Gamma_correlation/ActivityCorrelationGamma.py) can be run:
+To reproduce the numerical results reported in the publication, the python script [ActivityCorrelationGamma.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/Gamma_correlation/ActivityCorrelationGamma.py) can be run as:
 
 ```
 python ActivityCorrelationGamma.py input_file sheet_name correlation_distance
