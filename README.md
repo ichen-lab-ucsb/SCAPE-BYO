@@ -27,7 +27,7 @@ This tool calculates *A* and *k&ast;t*, according to the equation *A(1-Exp(-k[S]
 
 ### How to use the script to calculate *k*-Seq results:
 
-To reproduce the numerical results reported in this publication, the python script `kseq_tools_v01.py` can be run as follows:
+To reproduce the numerical results reported in this publication, the python script [kseq_tools_v01.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/kseq_tools_v01.py) can be run as follows:
 
 ```
 python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list substrate_concs rounds_to_average rounds_to_error -v -p
@@ -42,7 +42,7 @@ For more information on usage, see the [detailed readme file](https://github.com
 
 ## Evolutionary Pathways
 
-The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script `peak_pather_v01.py` finds the *N* best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map.
+The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script [peak_pather_v01.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/peak_pather/peak_pather_v01.py) finds the *N* best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map.
 
 ### How to use the script to calculate evolutionary pathways:
 
@@ -74,7 +74,7 @@ is calculated following [Ferretti et al., 2016](https://www.sciencedirect.com/sc
 
 ### How to use the script to calculate correlation of fitness effects:
 
-To reproduce the numerical results reported in the publication, run:
+To reproduce the numerical results reported in the publication, the python script [ActivityCorrelationGamma.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/Gamma_correlation/ActivityCorrelationGamma.py) can be run:
 
 ```
 python ActivityCorrelationGamma.py input_file sheet_name correlation_distance
@@ -82,7 +82,7 @@ python ActivityCorrelationGamma.py input_file sheet_name correlation_distance
 
 where `input_file` corresponds to the excel file ActivityObservedData.xlsx and `sheet_name` corresponds to either Family_2.1, Family_1A.1, Family_1B.1, Family_1B.2 or Family_1A.2. `Correlation_distance` is an integer number {0..4}.
 
-The Python script ActivityCorrelationGamma.py and excel source file ActivityObservedData.xlsx can be found in the folder [Gamma_correlation](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/Gamma_correlation). Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
+The excel source file ActivityObservedData.xlsx can be found in the folder [Gamma_correlation](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/Gamma_correlation). Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
 
 
 ## Built With
