@@ -29,7 +29,7 @@ This tool calculates A and k&ast;t, according to the equation A(1-Exp(-k[S]t)), 
 To reproduce the numerical results reported in this publication, the python script `kseq_tools_v01.py` can be run as follows:
 
 ```
-python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output_file] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -p
+python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -p
 ```
 
 Currently the code requires a "counts" file as input, consisting of three lines of metadata followed by one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
@@ -51,7 +51,7 @@ The file corresponding to the round used to produce the pathways reported in the
 The pathways described in this publication are computed as follows:
 
 ```
-python peak_pather_v01.py R5c-counts.txt [output_file] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
+python peak_pather_v01.py R5c-counts.txt [output] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
 ```
 
 Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, maximum step size was set at 1, then incremented by 1 until 5 pathways were found. The script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
@@ -60,7 +60,7 @@ For more information on usage, see the [detailed readme file](https://github.com
 
 ## Correlation of Fitness Effects
 
-The ruggedness of a ribozyme family can be measured usign the fitness correlation <a href="https://www.codecogs.com/eqnedit.php?latex=\gamma&space;_{d}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\gamma&space;_{d}" title="\gamma _{d}" /></a>, 
+The ruggedness of a ribozyme family can be measured using the fitness correlation <a href="https://www.codecogs.com/eqnedit.php?latex=\gamma&space;_{d}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?\gamma&space;_{d}" title="\gamma _{d}" /></a>, 
 which is the average correlation of activity effects of single mutations in *d*-mutant neighbors
 (where *d* is the Levenshtein edit distance, i.e., the number of substitutions, insertions or 
 deletions between two related sequences).
@@ -76,10 +76,10 @@ The Python script (`ActivityCorrelationGamma.py`) and excel source file (`Activi
 To reproduce the numerical results reported in the publication, run:
 
 ```
-python ActivityCorrelationGamma.py ActivityObservedData.xlsx sheet_name correlation_distance
+python ActivityCorrelationGamma.py ActivityObservedData.xlsx [sheet_name] [correlation_distance]
 ```
 
-where `sheet_name` corresponds to either `Family_2.1`, `Family_1A.1`, `Family_1B.1`, `Family_1B.2` or `Family_1A.2`.
+where `sheet_name` corresponds to either `Family_2.1`, `Family_1A.1`, `Family_1B.1`, `Family_1B.2` or `Family_1A.2`. Correlation_distance is an integer number [0..4]
 
 ## Built With
 
@@ -87,6 +87,6 @@ where `sheet_name` corresponds to either `Family_2.1`, `Family_1A.1`, `Family_1B
 
 ## Authors
 
-* **Abe Pressman** - * *k*-Seq Analysis* - *Evolutionary Pathways* 
-* **Celia Blanco** - * Correlation of Fitness Effects* 
+* **Abe Pressman** - *k*-Seq Analysis - Evolutionary Pathways
+* **Celia Blanco** - Correlation of Fitness Effects 
 
