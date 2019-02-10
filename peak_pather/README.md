@@ -3,7 +3,7 @@
 
 ### Goal:
 
-The peak_pather script searches for the shortest pathway between two sequences, along a fitness landscape, using the [A&ast; algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script `peak_pather_v01.py` finds the N best pathways between two sequences, ranked by 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map (this could be replaced with highest minimum fitness, if the reference file is a list of sequences and their fitnesses instead).
+The peak_pather script searches for the shortest pathway between two sequences, along a fitness landscape, using the [A&ast; algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script `peak_pather_v01.py` finds the *N* best pathways between two sequences, ranked by 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map (this could be replaced with highest minimum fitness, if the reference file is a list of sequences and their fitnesses instead).
 
 ### Input:
 
