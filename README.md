@@ -36,7 +36,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 where `start_round` is R5c-counts.txt, `kseq_rounds` is example-rounds.txt, `normalization_list` is example-normalization.txt, `substrate_concs` is example-subst-concs.txt, `rounds_to_average` is example-rnds-to-avg.txt and `rounds_to_error` is example-rnds-to-err.txt.
 
-The files corresponding to each tested *k*-Seq round after selection (called in `kseq_rounds`) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder `kseq_tools`. 
+The files corresponding to each tested *k*-Seq round after selection (called in `kseq_rounds`) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder [kseq_tools](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/kseq_tools). 
 
 For more information on usage, see the [detailed readme file](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/README.md) or run `python kseq_tools_v01.py -h` in the terminal.
 
