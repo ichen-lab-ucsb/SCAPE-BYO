@@ -10,7 +10,7 @@ The peak_pather script searches for the shortest pathway between two sequences, 
 The script can be generally used as follows:
 
 ```
-python peak_pather_v01.py [input_file] [output_file] [start_seq] [end_seq]
+python peak_pather_v01.py input_file output_file start_seq end_seq
 ```
 
 #### Required arguments (positionally dependent):
@@ -32,7 +32,7 @@ The following options can be utilized to adjust the behaviour of the script. Mos
                        
 `-n NUM_PATHS`, `--num_paths NUM_PATHS` - Number of best pathways to be generated with each run (must be an integer). Default value is 1.
                         
- `--max_length MAX_LENGTH` - Maximum length of path searched before giving up (must be an integer). Default value is twice the length of the starting sequence.
+ `--max_length MAX_LENGTH` - Maximum length of any path searched before the path is abandoned (must be an integer). Default value is twice the length of the starting sequence.
  
  `--min_count MIN_COUNT` - Minimum count of sequences searched (must be an intenger). Default value is 2. 
   
