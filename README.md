@@ -24,7 +24,6 @@ by Abe D. Pressman, Ziwei Liu, Evan Janzen, Celia Blanco, Ulrich F. Muller, Gera
 ## *k*-Seq Analysis
 This tool calculates *A* and *k&ast;t*, according to the equation *A(1-Exp(-k[S]t))*, for every sequence in a relevant *k*-Seq data set. It requires several input files: a file with sequence data/counts for a *k*-Seq "start" round, a file for each tested *k*-Seq round after selection has occurred, files describing the reaction conditions, and known or approximate normalization constants for each round based on the expected amount of DNA/RNA/protein present before and after the reaction in each sample.
 
-The code requires a "counts" file as input, consisting of three lines of metadata followed by one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
 
 ### How to use the script to calculate *k*-Seq results:
 
@@ -36,7 +35,7 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 
 where `start_round` is R5c-counts.txt, `kseq_rounds` is example-rounds.txt, `normalization_list` is example-normalization.txt, `substrate_concs` is example-subst-concs.txt, `rounds_to_average` is example-rnds-to-avg.txt and `rounds_to_error` is example-rnds-to-err.txt.
 
-The files corresponding to each tested *k*-Seq round after selection (called in `kseq_rounds`) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder [kseq_tools](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/kseq_tools). 
+The code requires "counts" files as input, consisting of three lines of metadata followed by one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). The files corresponding to the start round (R5c-counts.txt) and each tested *k*-Seq round after selection (called in `kseq_rounds`) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder [kseq_tools](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/kseq_tools). 
 
 For more information on usage, see the [detailed readme file](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/README.md) or run `python kseq_tools_v01.py -h` in the terminal.
 
