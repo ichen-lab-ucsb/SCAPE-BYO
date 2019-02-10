@@ -28,14 +28,14 @@ python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list 
 `substrate_concs` - File containing list of substrate concentrations for each set of kseq rounds. One row corresponds to each unique substrate concentration, not to each round/experimental sample (if duplicates are used). Must be the same number of rows as `rounds_to_averge`.
 
 
-`rounds_to_average` - File containing comma-separated lists of of sets of rounds to average together for fits (e.g. row 1 as "1,2,3" and row 2 as "4,5,6" will average the abundances of rounds 1, 2, and 3, and then also average 4, 5, and 6). If only a single replicate was carried out, then the file should only contain one number per round (e.g. row 1 as "1," row 2 as "2", etc.) For abundance without kseq calculations, this file should be left blank. Must be the same number of rows as `substrate_concs`.
+`rounds_to_average` - File containing comma-separated lists of sets of rounds to average together for fits (e.g. row 1 as "1,2,3" and row 2 as "4,5,6" will average the abundances of rounds 1, 2, and 3, and then also average 4, 5, and 6). If only a single replicate was carried out, then the file should only contain one number per round (e.g. row 1 as "1," row 2 as "2", etc.) For abundance without kseq calculations, this file should be left blank. Must be the same number of rows as `substrate_concs`.
                         
-`rounds_to_error` - File containing comma-separated lists of of sets of rounds used for each replicate. If no replicates, this file should be left blank (standard deviation will be based on goodness of fit instead).
+`rounds_to_error` - File containing comma-separated lists of sets of rounds used for each replicate. If no replicates, this file should be left blank (standard deviation will be based on goodness of fit instead).
 
 
 #### Optional arguments:
 
-The following options can be utilized to adjust the behaviour of the script. Most options require an additional argument. A comma indicates that an option can be called multiple ways.
+The following options can be utilized to adjust the behavior of the script. Most options require an additional argument. A comma indicates that an option can be called multiple ways.
 
 `-h`, `--help` - Show help message and exit.
 
@@ -45,7 +45,7 @@ The following options can be utilized to adjust the behaviour of the script. Mos
                         
 `-o OUT_TYPE`, `--out_type OUT_TYPE` - Set output file type to `csv` (comma-separated values) or `tsv` (tab-separated values). Default output file type is csv.
                         
-`--min_count MIN_COUNT` - Minimum count of sequences searched (must be an integer). Default value is 1 (searching through all sequences present in the "k-seq start" round. 
+`--min_count MIN_COUNT` - Minimum count of sequences searched (must be an integer). Default value is 1 (search through all sequences present in the "k-seq start" round). 
     
 `-p`, `--track_progress` - If this flag is used, progress will be printed in the terminal. 
 
@@ -64,7 +64,7 @@ For each sequence's k-Seq output (i.e., each row), the values in each column pro
 
 `A by avg` - The value of A calculated from fitting averaged data sets.
 
-`k*t by avg` - The value of k t calculated from fitting averaged data sets.
+`k*t by avg` - The value of k&ast;t calculated from fitting averaged data sets.
 
 `A st. dev` - The standard deviation of A calculated from the values fit to multiple replicates.
 
