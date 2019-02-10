@@ -13,13 +13,13 @@ by Abe D. Pressman, Ziwei Liu, Evan Janzen, Celia Blanco, Ulrich F. Muller, Gera
 
 ## Prerequisites
 
-- Python 2.7  
-- openpyxl package for python
-- Levenshtein package for python 
-- numpy package for python 
-- scipy package for python 
-- argparse package for python 
-- heapq package for python 
+- [Python 2.7](https://www.python.org/)  
+- [openpyxl](https://anaconda.org/anaconda/openpyxl) package for python
+- [Levenshtein](https://anaconda.org/conda-forge/python-levenshtein) package for python 
+- [numpy](https://anaconda.org/anaconda/numpy) package for python 
+- [scipy](https://anaconda.org/anaconda/scipy) package for python 
+- [argparse](https://docs.python.org/2/library/argparse.html?highlight=argparse) package for python 
+- [heapq](https://docs.python.org/2/library/heapq.html) package for python 
 
 ## *k*-Seq Analysis
 This tool calculates *A* and *k&ast;t*, according to the equation *A(1-Exp(-k[S]t))*, for every sequence in a relevant *k*-Seq data set. It requires several input files: a file with sequence data/counts for a *k*-Seq "start" round, a file for each tested *k*-Seq round after selection has occurred, files describing the reaction conditions, and known or approximate normalization constants for each round based on the expected amount of DNA/RNA/protein present before and after the reaction in each sample.
@@ -83,11 +83,6 @@ python ActivityCorrelationGamma.py input_file sheet_name correlation_distance
 where `input_file` corresponds to the excel file ActivityObservedData.xlsx and `sheet_name` corresponds to either Family_2.1, Family_1A.1, Family_1B.1, Family_1B.2 or Family_1A.2. `Correlation_distance` is an integer number {0..4}.
 
 The excel source file ActivityObservedData.xlsx can be found in the folder [Gamma_correlation](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/Gamma_correlation). Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
-
-
-## Built With
-
-* [Python](https://www.python.org/) - The Programming Language
 
 ## Authors
 
