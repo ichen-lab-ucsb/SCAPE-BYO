@@ -29,12 +29,14 @@ This tool calculates *A* and *k&ast;t*, according to the equation *A(1-Exp(-k[S]
 To reproduce the numerical results reported in this publication, the python script `kseq_tools_v01.py` can be run as follows:
 
 ```
-python kseq_tools_v01.py R5c-counts.txt example-rounds.txt [output] example-normalization.txt example-subst-concs.txt example-rnds-to-avg.txt example-rnds-to-err.txt -v -p
+python kseq_tools_v01.py start_round kseq_rounds output_file normalization_list substrate_concs rounds_to_average rounds_to_error -v -p
 ```
+
+where `start_round` is R5c-counts.txt, `kseq_rounds` is example-rounds.txt, `normalization_list` is example-normalization.txt, `substrate_concs` is example-subst-concs.txt, `rounds_to_average` is example-rnds-to-avg.txt and `rounds_to_error` is example-rnds-to-err.txt.
 
 Currently the code requires a "counts" file as input, consisting of three lines of metadata followed by one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
 
-The files corresponding to each tested *k*-Seq round after selection will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder `kseq_tools`. 
+The files corresponding to each tested *k*-Seq round after selection (called in `kseq_rounds`) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. Every other input file can be found in the folder `kseq_tools`. 
 
 For more information on usage, see the [detailed readme file](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/README.md) or run `python kseq_tools_v01.py -h` in the terminal.
 
@@ -44,17 +46,19 @@ The shortest pathway between two sequences, along a fitness landscape, can be fo
 
 Currently the code requires a "counts" file as input, consisting of three lines of metadata followed by  one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
 
-The file corresponding to the round used to produce the pathways reported in the publication will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. 
-
 ### How to use the script to calculate evolutionary pathways:
 
 The pathways described in this publication are computed as follows:
 
 ```
-python peak_pather_v01.py R5c-counts.txt [output] [start_sequence] [end_sequence] --min_count [variable] --max_step [variable] -n 5 --max_length 35 -p
+python peak_pather_v01.py input_file output_file start_sequence end_sequence --min_count [variable] --max_step [variable] -n [variable] --max_length [variable] -p
 ```
 
-Minimum sequence count was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, maximum step size was set at 1, then incremented by 1 until 5 pathways were found. The script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
+where `input_file` is R5c-counts.txt. The file corresponding to the round used to produce the pathways reported in the publication (R5c-counts.txt) will be uploaded to a perpetual repository upon acceptance of the publication. A link to the repository will be added here. 
+
+Minimum sequence count (`min_count`) was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, maximum step size (`max_step`) was set at 1, then incremented by 1 until 5 pathways were found. The script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
+
+The number of best pathways to be generated with each run (`n`) was set to 5. The maximum length of any path searched before the path is abandoned (`max_length`) was set to 35.
 
 For more information on usage, see the [detailed readme file](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/peak_pather/README.md) or run `python peak_pather_v01.py -h` in the terminal.
 
