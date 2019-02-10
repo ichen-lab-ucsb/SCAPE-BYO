@@ -82,7 +82,7 @@ python ActivityCorrelationGamma.py input_file sheet_name correlation_distance
 
 where `input_file` corresponds to the excel file ActivityObservedData.xlsx and `sheet_name` corresponds to either Family_2.1, Family_1A.1, Family_1B.1, Family_1B.2 or Family_1A.2. `Correlation_distance` is an integer number {0..4}.
 
-The Python script `ActivityCorrelationGamma.py` and excel source file `ActivityObservedData.xlsx` can be found in the folder [Gamma_correlation](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/Gamma_correlation). Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
+The Python script ActivityCorrelationGamma.py and excel source file ActivityObservedData.xlsx can be found in the folder [Gamma_correlation](https://github.com/ichen-lab-ucsb/SCAPE-BYO/tree/master/Gamma_correlation). Each spreadsheet in the excel file corresponds to a different family and follows the same format: column A) sequences, column B) calculated activity (including values under the baseline activity), column C) calculated activity if above the baseline activity (or baseline activity if below), and column D) logarithm of the values in column C).
 
 
 ## Built With
