@@ -2,14 +2,12 @@
 #present in a round of artificial selection. Priority is given to pathways with shorter steps and higher
 #minimum sequence counts.
 
-#A more polished/easier-to-use version of this script will be completed in the near future; as this version
-#has been used in a publication, it will remain here for posterity.
+#Current input file requirements are "counts" files consisting of three lines of metadata 
+#followed by one line per unique sequence in the pool in the following format: 
+#sequences in the first column and counts (an integer number) in the second column. 
 
-#Current input file requirements are a "counts" file consisting of three lines of metadata followed by 
-#one line per unique sequence in pool, of the format "sequence count" where count is an integer.
-#Such files are produced by our Galaxy tools, currently available at http://galaxy-chen.cnsi.ucsb.edu:8080/
-#HOWEVER future versions of this script will be included with tools to more easily process data from
-#a number of other tools currently used to process high-throughput sequencing data
+#Such files are produced by our Galaxy tools, currently available at the Chen Lab website:
+# https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html
 
 #by Abe Pressman
 #contact: abe@engineering.ucsb.edu
@@ -244,11 +242,6 @@ def astar(startSeq, endSeq, fullCounts, maxPath, distanceType='edit', maxStep=1,
     bestWinners = rankedWinners[0:numPaths]
     
     return bestWinners
-
-#Example case:
-
-#counts = readSeqs('R5c-counts-trim.txt', cutOff=2)
-#astar('CCACACTTCAAGCAATCGGTC', 'CTCTTCAATAATCGGTTGCGT', counts, 35, maxDist=3, numPaths=5)
    
 if __name__ == "__main__":
     main()
