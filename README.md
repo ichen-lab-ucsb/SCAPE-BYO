@@ -53,7 +53,7 @@ python peak_pather_v01.py input_file output_file start_sequence end_sequence --m
 ```
 
 where `input_file` is R5c-counts.txt. The code requires a "counts" file as input, consisting of three lines of metadata followed by  one line per unique sequence in the pool in the following format: sequences in the first column and counts (an integer number) in the second column. Such files are produced by our [Galaxy tools](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Publications_files/Xulvi%20et%20al%20Methods%202016.pdf), currently available at the [Chen Lab website](https://labs.chem.ucsb.edu/chen/irene/Chen_lab_at_UCSB/Galaxy_Tools.html). 
-The file corresponding to the round used to produce the pathways reported in the publication (R5c-counts.txt) can be found in [Dryad](https://datadryad.org/resource/doi:10.5061/dryad.nm1189t). A link to the repository will be added here. 
+The file corresponding to the round used to produce the pathways reported in the publication (R5c-counts.txt) can be found in [Dryad](https://datadryad.org/resource/doi:10.5061/dryad.nm1189t).
 
 Minimum sequence count (`min_count`) was set at 3 for the highly-populated pathways between Motif 1A and 1B, and set at 2 for all other pathways. For all pairs of sequence endpoints investigated, maximum step size (`max_step`) was set at 1, then incremented by 1 until 5 pathways were found. The script was then run again with min_step increased 1 further, to generate 5 additional pathways with larger step tolerance.
 
