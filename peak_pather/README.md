@@ -34,7 +34,7 @@ The following options can be utilized to adjust the behaviour of the script. Mos
                         
  `--max_length MAX_LENGTH` - Maximum length of any path searched before the path is abandoned (must be an integer). Default value is twice the length of the starting sequence.
  
- `--min_count MIN_COUNT` - Minimum count of sequences searched (must be an intenger). Default value is 2. 
+ `--min_count MIN_COUNT` - Minimum count of sequences searched (must be an integer). Default value is 2. 
   
  `--max_step MAX_STEP` - Maximum step size allowed by search paths (must be an integer). Default value is 1. 
   
