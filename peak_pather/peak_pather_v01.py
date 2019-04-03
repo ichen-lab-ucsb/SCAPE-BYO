@@ -50,7 +50,7 @@ def main():
         
 		for path in bestPaths:
 			
-			initDist = path[0] - path[6][0]
+			initDist = path[0] - path[6][0][0]
 			
 			fo.write('\nhere is a path\n')
 			fo.write('step #,sequence,step size,total distance,sequence count\n')
