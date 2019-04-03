@@ -45,13 +45,16 @@ def main():
 	with open(args.output,'w') as fo:
 
 		fo.write('These are the best ' +  str(args.num_paths) + ' paths from ' + str(args.start_seq) + ' to ' + str(args.end_seq) + '\n')
-		fo.write('of maximum length ' + str(args.max_length) + ' and maximum step size (' + str(args.dist_type) + ') ' + str(args.max_step) + '\n')
+		fo.write('of maximum length ' + str(maxPath) + ' and maximum step size (' + str(args.dist_type) + ') ' + str(args.max_step) + '\n')
 		fo.write('using sequences of minimum abundance ' + str(args.min_count) + '\n')
         
 		for path in bestPaths:
+			
+			initDist = path[0] - path[6][0]
+			
 			fo.write('\nhere is a path\n')
 			fo.write('step #,sequence,step size,total distance,sequence count\n')
-			fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(path[0]) + ',' + str(counts[path[4]]) + '\n')
+			fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(initDist) + ',' + str(counts[path[4]]) + '\n')
 
 			for step in path[6]:
 				fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
