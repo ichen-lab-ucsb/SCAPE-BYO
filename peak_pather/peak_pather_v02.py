@@ -27,7 +27,7 @@ def main():
     parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
     parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
     parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
-    parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
+    parser.add_argument("--min_count", type=float, default=2.0, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
     parser.add_argument("--max_step", type=int, default=1, help='maximum step size allowed by search paths; default is 1')
     parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
     parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
@@ -85,8 +85,8 @@ def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
                     if i % 100000 == 0:
                         print "Read " + str(i) + " of " + str(uniques) +" sequences from counts file"
                 
-                if int(line[1]) >= minCount:
-                    allSeqCounts[line[0]] = int(line[1])
+                if float(line[1]) >= minCount:
+                    allSeqCounts[line[0]] = float(line[1])
                           
     return allSeqCounts
     #a dictionary of all sequences we want to search over, and their abundance 
