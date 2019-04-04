@@ -19,45 +19,45 @@ from heapq import heappop, heappush
 import argparse
 
 def main():
-	parser = argparse.ArgumentParser(description="Find the shortest N evolutionary paths between two sequences in a population, using the A* algorithm")
-	parser.add_argument("input", help="location/name of file containing sequence counts for the round to be iterated over")
-	parser.add_argument("output", help="output file location/name")
-	parser.add_argument("start_seq", help="path start sequence")
-	parser.add_argument("end_seq", help="path end sequence")
-	parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
-	parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
-	parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
-	parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
-	parser.add_argument("--max_step", type=int, default=1, help='maximum step size allowed by search paths; default is 1')
-	parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
-	parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
+    parser = argparse.ArgumentParser(description="Find the shortest N evolutionary paths between two sequences in a population, using the A* algorithm")
+    parser.add_argument("input", help="location/name of file containing sequence counts for the round to be iterated over")
+    parser.add_argument("output", help="output file location/name")
+    parser.add_argument("start_seq", help="path start sequence")
+    parser.add_argument("end_seq", help="path end sequence")
+    parser.add_argument("-i", "--in_type", default="counts", help="set input file type; default is 'counts', which assumes three lines of header data followed by lines of the format 'sequence count' where count is an integer")
+    parser.add_argument("-n","--num_paths", type=int, default=1, help='number of best pathways to be generated with each run; default is 1')
+    parser.add_argument("--max_length", type=int, default=0, help='maximum length of path searched before giving up; defaults to twice the length of the starting sequence')
+    parser.add_argument("--min_count", type=int, default=2, help='minimum count of sequences searched (the program discards any sequences of lower count); default is 2 (setting lower than 2 may increase runtime dramatically)')
+    parser.add_argument("--max_step", type=int, default=1, help='maximum step size allowed by search paths; default is 1')
+    parser.add_argument("-d","--dist_type", default='edit', help='distance metric used to find shortest pathway; defaults to "edit" but "hamming" is also allowed')
+    parser.add_argument("-p","--track_progress", action='store_true', help='if this flag is enabled, terminal will output updates on how much progress the code has made')
 
-	args=parser.parse_args()
+    args=parser.parse_args()
 
-	maxPath = args.max_length
-	if args.max_length == 0:
-		maxPath = 2*len(args.start_seq) #set our maximum path length   
+    maxPath = args.max_length
+    if args.max_length == 0:
+        maxPath = 2*len(args.start_seq) #set our maximum path length   
 
-	counts = readSeqs(args.input, args.in_type, args.min_count, args.track_progress) #generate a dictionary of all sequences present and their count
+    counts = readSeqs(args.input, args.in_type, args.min_count, args.track_progress) #generate a dictionary of all sequences present and their count
 
-	bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
+    bestPaths = astar(args.start_seq, args.end_seq, counts, maxPath, args.dist_type, args.max_step, args.num_paths, args.track_progress) #find the N best pathways
 
-	with open(args.output,'w') as fo:
+    with open(args.output,'w') as fo:
 
-		fo.write('These are the best ' +  str(args.num_paths) + ' paths from ' + str(args.start_seq) + ' to ' + str(args.end_seq) + '\n')
-		fo.write('of maximum length ' + str(maxPath) + ' and maximum step size (' + str(args.dist_type) + ') ' + str(args.max_step) + '\n')
-		fo.write('using sequences of minimum abundance ' + str(args.min_count) + '\n')
+        fo.write('These are the best ' +  str(args.num_paths) + ' paths from ' + str(args.start_seq) + ' to ' + str(args.end_seq) + '\n')
+        fo.write('of maximum length ' + str(maxPath) + ' and maximum step size (' + str(args.dist_type) + ') ' + str(args.max_step) + '\n')
+        fo.write('using sequences of minimum abundance ' + str(args.min_count) + '\n')
         
-		for path in bestPaths:
-			
-			initDist = path[0] - path[6][0][0]
-			
-			fo.write('\nhere is a path\n')
-			fo.write('step #,sequence,step size,total distance,sequence count\n')
-			fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(path[1]) + ',' + str(initDist) + ',' + str(counts[path[4]]) + '\n')
+        for path in bestPaths:
+            
+            initDist = path[0] - path[6][0][0]
+            
+            fo.write('\nhere is a path\n')
+            fo.write('step #,sequence,step size,total distance,sequence count\n')
+            fo.write (str(path[3]) + ',' + str(path[4]) + ',' + str(initDist) + ',' + str(path[0]) + ',' + str(counts[path[4]]) + '\n')
 
-			for step in path[6]:
-				fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
+            for step in path[6]:
+                fo.write (str(step[3]) + ',' + str(step[4]) + ',' + str(step[1]) + ',' + str(step[0]) + ',' + str(step[2]) + '\n')
 
 # Create a hashmap keyed to all sequences present in the population, returning a dictionary of all sequences we want to search over, and the number of times they appear in that round's sequencing data
 def readSeqs(loc, fileType='counts', minCount=2, trackProgress=False):
