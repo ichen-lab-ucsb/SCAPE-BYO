@@ -39,10 +39,9 @@ The code requires "counts" files as input, consisting of three lines of metadata
 
 For more information on usage, see the [detailed readme file](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/kseq_tools/README.md) or run `python kseq_tools_v01.py -h` in the terminal.
 
-
 ## Evolutionary Pathways
 
-The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script [peak_pather_v01.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/peak_pather/peak_pather_v01.py) finds the *N* best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map.
+The shortest pathway between two sequences, along a fitness landscape, can be found efficiently using the [A* algorithm](https://en.wikipedia.org/wiki/A*_search_algorithm). The algorithm iterates over a single round's sequence population as a graph, with each sequence present as its own node and the edit distances between sequences as edges with distance. The python script [peak_pather_v01.py](https://github.com/ichen-lab-ucsb/SCAPE-BYO/blob/master/peak_pather/peak_pather_v01.py) finds the *N* best pathways between two sequences, ranked by: 1) shortest total path length, 2) smallest maximum step size, 3) smallest average step size, 4) largest minimum sequence count, using a sequence counts file as the reference map. Among equal-length pathways, the ones with the highest number of total steps are prioritized.
 
 ### How to use the script to calculate evolutionary pathways:
 
