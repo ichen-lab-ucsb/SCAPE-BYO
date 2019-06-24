@@ -53,7 +53,7 @@ def main():
     if args.search_set[0] == 'center':
         center = args.search_set[1]
         #if we're only interested in kseq values over one sequence, we limit our search:
-        searchSet = readSinglePeak(args.start_round, args.search_set[1], args.search_set[2], args.min_count)
+        searchSet = readSinglePeak(args.start_round, args.search_set[1], int(args.search_set[2]), args.min_count)
 
     elif args.search_set[0] == 'list':
         #if we're only interested in kseq values for a specific list of sequences, we limit our search:
@@ -193,8 +193,8 @@ def alignCounts(masterCounts, roundCounts, rnd, maxRnds, initialize=False):
             counts[0] += roundCounts[seq]
             masterCounts.append([seq, counts]) #masterCounts is a list of tuples of the format (sequence, list of abundances)
     else:
-        for seq in masterCounts:
-            if seq[0] in roundCounts.keys():
+        for seq in masterCounts.keys():
+            if seq[0] in roundCounts:
                 seq[1][rnd] += roundCounts[seq[0]]
 
     return masterCounts
