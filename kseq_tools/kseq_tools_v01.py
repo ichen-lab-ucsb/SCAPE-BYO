@@ -193,7 +193,7 @@ def alignCounts(masterCounts, roundCounts, rnd, maxRnds, initialize=False):
             counts[0] += roundCounts[seq]
             masterCounts.append([seq, counts]) #masterCounts is a list of tuples of the format (sequence, list of abundances)
     else:
-        for seq in masterCounts.keys():
+        for seq in masterCounts:
             if seq[0] in roundCounts:
                 seq[1][rnd] += roundCounts[seq[0]]
 
